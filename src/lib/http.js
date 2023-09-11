@@ -5,30 +5,24 @@ import router from "../router/index.js";
 const http = new fly()
 const refreshFly = new fly()
 
+//无需token的接口列表
 const noTokenRequestUrl = {
     '/api/users/token': ["GET"],
     '/api/users': ["POST"]
 }
 
-let api_base_url = 'http://192.168.102.74:8108'
-if (process.env.NODE_ENV === 'production') {//生产环境
-    api_base_url = 'http://192.168.102.74:8108'
-}
-
-
-refreshFly.config.baseURL = api_base_url
-refreshFly.config.headers = {
-    'X-Tag': 'project-web',
+const headers = {
+    'X-Tag': import.meta.env.EASY_DOC_APP_NAME,
     'Accept': 'application/json',
     'ContentType': 'application/json',
 }
 
-http.config.baseURL = api_base_url
-http.config.headers = {
-    'X-Tag': 'project-web',
-    'Accept': 'application/json',
-    'ContentType': 'application/json',
-}
+refreshFly.config.baseURL = import.meta.env.EASY_DOC_SERVER_HOST
+refreshFly.config.headers = headers
+
+http.config.baseURL = import.meta.env.EASY_DOC_SERVER_HOST
+http.config.headers = headers
+
 const TokenKey = "user.token"
 
 const refreshToken = async (token) => {
