@@ -18,7 +18,7 @@
     </td>
     <td>
       <template v-if="params.type==='array'">
-        {{  params.children.length>0 ? params.children[0].type : ''}}[]
+        {{  (params.children && params.children.length)>0 ? params.children[0].type : ''}}[]
       </template>
       <template v-else>
         {{ params.type }}
@@ -28,7 +28,7 @@
     <td>{{ params.test_val }}</td>
     <td>{{ params.desc }}</td>
   </tr>
-  <template v-if="params.type==='array' && params.children.length>0">
+  <template v-if="params.type==='array' && (params.children && params.children.length>0)">
     <ParamsSubTable :data="params.children[0].children" v-if="params.children[0].type=='object'" :show="params.expand" :index="newIndex"></ParamsSubTable>
   </template>
   <template v-else-if="params.type==='object'">
@@ -67,7 +67,7 @@ export default {
     expand(params, expand){
       params.expand = expand
       if (!expand){
-        if (params.children.length>0){
+        if (params.children && params.children.length>0){
           for (let i=0; i<params.children.length; i++){
             this.expand(params.children[i], expand)
           }

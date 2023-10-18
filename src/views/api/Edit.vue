@@ -63,7 +63,9 @@
 
     <el-divider content-position="left" class="info-divider">备注</el-divider>
     <div>
-      <el-input v-model="info.desc" :rows="10" type="textarea" />
+<!--      <el-input v-model="info.desc" :rows="10" type="textarea" />-->
+      <QuillEditor v-model:content="info.desc" content-type="html" :options="editorOption" :max-height="400">
+      </QuillEditor>
     </div>
   </el-form>
 
@@ -78,10 +80,13 @@
 
 <script>
 import EditParams from '@/components/EditParams.vue'
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 export default {
   name: "Edit",
   components:{
-    EditParams
+    EditParams,
+    QuillEditor
   },
   data() {
     return {
@@ -91,6 +96,33 @@ export default {
       info:{
 
       },
+      editorOption: {
+        theme: 'snow',
+        bounds: document.body,
+        debug: 'warn',
+        modules: {
+          toolbar: {
+            container: [
+              ['bold', 'italic', 'underline', 'strike'],
+              [{ header: [1, 2, 3, 4, 5, 6, false] }],
+              [{ size: ['small', false, 'large', 'huge'] }],
+              [{ color: [] }, { background: [] }],
+              ['blockquote', 'code-block'],
+              [{ list: 'ordered' }, { list: 'bullet' }],
+              [{ script: 'sub' }, { script: 'super' }],
+              [{ indent: '-1' }, { indent: '+1' }],
+              [{ align: [] }],
+              [{ direction: 'rtl' }],
+              [{ font: [] }],
+              ['clean'],
+              // ['link', 'image', 'vab-upload-image'],
+              ['link', 'vab-upload-image'],
+            ]
+          },
+        },
+        placeholder: '请输入备注',
+        readOnly: false,
+      }, //编辑器配置项
       requestFormVisible:false,
       requestJsonError:"",
       requestJson:"",
@@ -197,6 +229,10 @@ export default {
     .el-divider__text{
       font-weight: bold;
     }
+  }
+
+  .ql-editor{
+    height: 500px;
   }
 }
 </style>

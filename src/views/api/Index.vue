@@ -16,7 +16,7 @@
     </div>
     <div class="desc">
       <h3>备注</h3>
-      <p>{{info.desc}}</p>
+      <div v-html="info.desc"></div>
     </div>
     <div class="request-box">
       <h3>请求参数</h3>
